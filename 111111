@@ -1,0 +1,38 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 13 11:27:30 2020
+
+@author: june
+"""
+
+#%%
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+
+my_stock = ['삼성전자', '카카오', '유한양행', 'NAVER']
+my_stock_code = ['005930','035720', '000100', '035420']
+
+
+base_url = 'https://finance.naver.com/item/main.nhn?code='
+
+com = []  #회사명
+price_c = []   #가격
+
+for code in my_stock_code:
+    cnt = 0  
+    all_url = base_url + code
+    page = urlopen(all_url)
+    soup = BeautifulSoup(page, 'lxml')
+    
+    ## 현재가
+    tmp = soup.find('p', class_='no_today')
+    price = tmp.find('span', class_='blind').text
+
+    com.append(my_stock[cnt])
+    price_c.append(price)
+    
+    cnt += 1  # cnt = cnt + 1
+    
+print(com)
+print(price_c)
